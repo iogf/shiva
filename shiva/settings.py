@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Captcha attributes.
+NOCAPTCHA = True
+
+# For debugging on 0.0.0.0.
+RECAPTCHA_PUBLIC_KEY = '6LfqPWkUAAAAAHygjNgWFhU3KvssnSWWTzAgT2kl'
+RECAPTCHA_PRIVATE_KEY = '6LfqPWkUAAAAANS1MGLmRN4H5_yTAIQ7oaAOOpYK'
 
 # Application definition
 
@@ -37,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
     'site_app',
     'ticket_app',
 ]
