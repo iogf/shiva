@@ -25,7 +25,7 @@ SECRET_KEY = '*7y@tp@b3d1kr900sre3jy)i@(+1113!n_js^&%frs$qtgnosi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 # Captcha attributes.
 NOCAPTCHA = True
