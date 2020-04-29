@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'captcha',
     'site_app',
     'ticket_app',
+    'trigger_app',
 ]
 
 MIDDLEWARE = [

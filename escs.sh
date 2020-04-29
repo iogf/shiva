@@ -122,6 +122,10 @@ django-admin startproject shiva shiva-code
 cd ~/projects/shiva-code
 python manage.py startapp core_app
 ##############################################################################
+# create trigger_app app.
+cd ~/projects/shiva-code
+python manage.py startapp trigger_app
+##############################################################################
 # delete last commit.
 
 cd ~/projects/shiva-code
