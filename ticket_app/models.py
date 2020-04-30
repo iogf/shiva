@@ -13,4 +13,12 @@ class Ticket(TicketMixin):
     email = models.EmailField(max_length=70, 
     null=True, blank=False, unique=True)
 
+    CHOICES = (
+        ('0', 'Help'),
+        ('1','Helper'),
+    )
+
+    type = models.CharField(max_length=6, 
+    choices=CHOICES, default='1')
+
     enabled = models.BooleanField(default=False)

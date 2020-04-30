@@ -9,6 +9,10 @@ class ListTickets(View):
             'ticket_app/list-tickets.html', {})
 
 class CreateTicket(View):
+    def get(self, request):
+        return render(request, 
+            'ticket_app/create-tickets.html', {})
+
     def post(self, request):
         pass
 
@@ -26,7 +30,8 @@ class CloseTicket(View):
 
 class FindTicket(View):
     def get(self, request):
-        pass
+        return render(request, 
+            'ticket_app/find-tickets.html', {})
 
     def post(self, request):
         pass

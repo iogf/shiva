@@ -10,12 +10,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
 </head>
 <body>
 
 <div class="jumbotron text-center">
-  <h1>Tickets</h1>
-  <p>Available resources.</p> 
+  <h3>Available resources.</h3> 
+  <a href="{% url 'ticket_app:create-ticket' %}"> <i class="fas fa-heart"></i> Create </a>
+  <a href="{% url 'ticket_app:find-ticket' %}"> <i class="fas fa-search"></i> Find </a>
+
+
 </div>
   
 <div class="container">
