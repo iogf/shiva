@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import View
+from . import models
 
 # Create your views here.
 class ListTickets(View):
     def get(self, request):
-        pass
+        return render(request, 
+            'ticket_app/list-tickets.html', {})
 
 class CreateTicket(View):
     def post(self, request):
