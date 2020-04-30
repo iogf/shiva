@@ -11,7 +11,7 @@ class ListTickets(View):
 class CreateTicket(View):
     def get(self, request):
         return render(request, 
-            'ticket_app/create-tickets.html', {})
+            'ticket_app/create-ticket.html', {})
 
     def post(self, request):
         pass
