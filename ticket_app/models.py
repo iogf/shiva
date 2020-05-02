@@ -8,9 +8,10 @@ class TicketMixin(models.Model):
 class Ticket(TicketMixin):
     name = models.CharField(null=True,
     blank=False, verbose_name='Name', 
-    help_text='Name', max_length=256)
+    help_text='Type your name.', max_length=256)
 
     email = models.EmailField(max_length=70, 
+    verbose_name='E-mail', help_text='E-mail for contact.', 
     null=True, blank=False, unique=True)
 
     CHOICES = (
@@ -19,6 +20,7 @@ class Ticket(TicketMixin):
     )
 
     type = models.CharField(max_length=6, 
+    verbose_name='Type', help_text='Are you an angel?', 
     choices=CHOICES, default='1')
 
     enabled = models.BooleanField(default=False)

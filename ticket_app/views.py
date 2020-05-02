@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from . import models
+from . import forms
 
 # Create your views here.
 class ListTickets(View):
@@ -10,8 +11,9 @@ class ListTickets(View):
 
 class CreateTicket(View):
     def get(self, request):
+        form = forms.TicketForm()
         return render(request, 
-            'ticket_app/create-ticket.html', {})
+            'ticket_app/create-ticket.html', {'form': form})
 
     def post(self, request):
         pass
