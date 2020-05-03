@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from . import models
 from . import forms
@@ -16,7 +16,13 @@ class CreateTicket(View):
             'ticket_app/create-ticket.html', {'form': form})
 
     def post(self, request):
-        pass
+        form = forms.TicketForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, 'ticket_app/create-ticket.html', 
+                    {'form': form}, status=400)
+        form.save()
+        return redirect('ticket_app:list-tickets')
 
 class DeleteTicket(View):
     def post(self, request):

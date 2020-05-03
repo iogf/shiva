@@ -5,6 +5,9 @@ class TicketMixin(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return '%s - %s' % (self.name, self.email)
+
 class Ticket(TicketMixin):
     name = models.CharField(null=True,
     blank=False, verbose_name='Name', 
