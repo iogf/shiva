@@ -15,7 +15,7 @@ class Ticket(TicketMixin):
 
     email = models.EmailField(max_length=70, 
     verbose_name='E-mail', help_text='E-mail for contact.', 
-    null=True, blank=False, unique=True)
+    null=True, blank=False)
 
     CHOICES = (
         ('0', 'Help'),

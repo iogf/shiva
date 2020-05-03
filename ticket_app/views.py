@@ -9,6 +9,17 @@ class ListTickets(View):
         return render(request, 
             'ticket_app/list-tickets.html', {})
 
+class EnableTicket(View):
+    def get(self, request):
+        c_helper = models.Ticket.objects.filter(type='1')
+        c_help   = models.Ticket.objects.filter(type='0')
+        c_helper = c_helper.count()
+        c_help   = c_help.count()
+
+        return render(request, 
+            'ticket_app/enable-ticket.html', 
+                {'c_helper': c_helper, 'c_help': c_help})
+
 class CreateTicket(View):
     def get(self, request):
         form = forms.TicketForm()
@@ -22,13 +33,9 @@ class CreateTicket(View):
             return render(request, 'ticket_app/create-ticket.html', 
                     {'form': form}, status=400)
         form.save()
-        return redirect('ticket_app:list-tickets')
+        return redirect('ticket_app:enable-ticket')
 
 class DeleteTicket(View):
-    def post(self, request):
-        pass
-
-class EnableTicket(View):
     def post(self, request):
         pass
 
