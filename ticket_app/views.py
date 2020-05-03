@@ -48,10 +48,12 @@ class CloseTicket(View):
     def post(self, request):
         pass
 
-class FindTicket(View):
+class FindTickets(View):
     def get(self, request):
+        form = forms.FindTicketForm()
+
         return render(request, 
-            'ticket_app/find-tickets.html', {})
+            'ticket_app/find-tickets.html', {'form': form})
 
     def post(self, request):
         pass
