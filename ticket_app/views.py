@@ -20,6 +20,11 @@ class EnableTicket(View):
             'ticket_app/enable-ticket.html', 
                 {'c_helper': c_helper, 'c_help': c_help})
 
+class ValidateEmail(View):
+    def get(self, request):
+        return render(request, 
+            'ticket_app/validate-email.html', {})
+
 class CreateTicket(View):
     def get(self, request):
         form = forms.TicketForm()
