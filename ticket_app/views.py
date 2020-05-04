@@ -6,8 +6,9 @@ from . import forms
 # Create your views here.
 class ListTickets(View):
     def get(self, request):
+        tickets = models.Ticket.objects.all()
         return render(request, 
-            'ticket_app/list-tickets.html', {})
+            'ticket_app/list-tickets.html', {'tickets': tickets})
 
 class EnableTicket(View):
     def get(self, request):
@@ -48,12 +49,12 @@ class CloseTicket(View):
     def post(self, request):
         pass
 
-class FindTickets(View):
+class FindTicket(View):
     def get(self, request):
         form = forms.FindTicketForm()
 
         return render(request, 
-            'ticket_app/find-tickets.html', {'form': form})
+            'ticket_app/find-ticket.html', {'form': form})
 
     def post(self, request):
         pass

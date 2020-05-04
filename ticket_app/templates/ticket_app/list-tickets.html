@@ -25,12 +25,14 @@
   
 <div class="container">
 
+{% for ind in tickets %}
 <div class="card">
-  <div class="card-header">Name</div>
+  <div class="card-header"><b> Author: </b>{{ind.name}} (<a href="mailto: {{ind.email}}"> {{ind.email}}</a>)</div>
   <div class="card-body">Content</div>
-  <div class="card-footer">Type</div>
+  <div class="card-footer"><b> Type: </b>{{ind.get_type_display}}</div>
 </div>
-
+<br>
+{% endfor %}
 </div>
 
 </body>
