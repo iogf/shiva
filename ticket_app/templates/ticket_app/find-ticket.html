@@ -29,6 +29,10 @@
 {% csrf_token %}
 
 {% bootstrap_field form.name  size='md' %}
+{% bootstrap_field form.item  size='md' %}
+
+{% bootstrap_field form.type  size='md' %}
+
 {% bootstrap_field form.email  size='md' %}
 
 {% bootstrap_form_errors form type='non_fields' %}
