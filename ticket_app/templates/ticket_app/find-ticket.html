@@ -25,7 +25,7 @@
 
 <div class="panel panel-default">
 <div class="panel-body">
-<form action="{% url 'ticket_app:create-ticket' %}" method="post">
+<form action="{% url 'ticket_app:find-ticket' %}" method="post">
 {% csrf_token %}
 
 {% bootstrap_field form.name  size='md' %}

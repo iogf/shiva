@@ -17,26 +17,19 @@ class Ticket(TicketMixin):
     verbose_name='E-mail', help_text='E-mail for contact.', 
     null=True, blank=False)
 
-    TYPE_CHOICES = (
-        ('0', 'Help'),
-        ('1','Helper'),
-    )
+    TYPE_CHOICES = (('0', 'Help'),('1','Helper'))
 
     type = models.CharField(max_length=6, 
     verbose_name='Type', help_text='Are you an angel?', 
     choices=TYPE_CHOICES, default='1')
 
-    ITEM_CHOICES = (
-        ('0', 'Food'),
-        ('1','Medical'),
-        ('2','Shelter'),
-        ('3','Clothes'),
-
-    )
+    ITEM_CHOICES = (('0', 'Food'), ('1','Medical'),
+    ('2','Shelter'), ('3','Clothes'))
 
     item = models.CharField(max_length=6, 
-    verbose_name='Item', help_text='What is it that you have/need?', 
-    choices=ITEM_CHOICES, default='1')
+    verbose_name='Item', choices=ITEM_CHOICES, default='1',
+    help_text='What is it that you have/need?', 
+)
 
     description = models.TextField(null=True,
     blank=False, verbose_name='Description', 

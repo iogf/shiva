@@ -57,7 +57,8 @@ class FindTicket(View):
             'ticket_app/find-ticket.html', {'form': form})
 
     def post(self, request):
-        pass
+        return render(request, 
+            'ticket_app/found-ticket.html', {})
 
 
 
