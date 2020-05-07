@@ -1,4 +1,5 @@
 from django.db import models
+# from cities_light.models import City
 
 # Create your models here.
 class TicketMixin(models.Model):
@@ -28,11 +29,23 @@ class Ticket(TicketMixin):
 
     item = models.CharField(max_length=6, 
     verbose_name='Item', choices=ITEM_CHOICES, default='1',
-    help_text='What is it that you have/need?', 
-)
+    help_text='What is it that you have/need?')
 
     description = models.TextField(null=True,
     blank=False, verbose_name='Description', 
     help_text='Type a description/note.')
+
+    # country = models.ForeignKey(Country, on_delete=models.CASCADE, default=None)
+    # city = models.ForeignKey(City, verbose_name='Country/City', 
+    # help_text='Where can you give/receive help?',
+    # on_delete=models.CASCADE, default=None)
+
+    country = models.CharField(null=True,
+    blank=False, verbose_name='Country', 
+    help_text='Type your country.', max_length=256)
+
+    city = models.CharField(null=True,
+    blank=False, verbose_name='City', 
+    help_text='Type your city.', max_length=256)
 
     enabled = models.BooleanField(default=False)

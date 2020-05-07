@@ -131,3 +131,15 @@ python manage.py startapp trigger_app
 cd ~/projects/shiva-code
 git reset HEAD^ --hard
 git push -f
+##############################################################################
+# Install django-cities-light.
+pip install django-cities-light
+
+# Populate db with cities.
+python manage.py makemigrations
+python manage.py migrate
+
+./manage.py cities_light
+
+./manage.py cities_light_fixtures dump
+./manage.py cities_light_fixtures load

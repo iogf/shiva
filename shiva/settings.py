@@ -34,6 +34,15 @@ NOCAPTCHA = True
 RECAPTCHA_PUBLIC_KEY = '6LfqPWkUAAAAAHygjNgWFhU3KvssnSWWTzAgT2kl'
 RECAPTCHA_PRIVATE_KEY = '6LfqPWkUAAAAANS1MGLmRN4H5_yTAIQ7oaAOOpYK'
 
+# django-cities-light settings.
+
+# CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
+# CITIES_LIGHT_INCLUDE_COUNTRIES = ['IN']
+# CITIES_LIGHT_APP_NAME = 'ticket_app'
+# CITIES_LIGHT_INCLUDE_CITY_TYPES = [
+# 'PPL', 'PPLA', 'PPLA2', 'PPLA3', 'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT',
+# ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'cities_light',
     'bootstrap4',
     'captcha',
     'site_app',
