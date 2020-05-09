@@ -1,8 +1,11 @@
+from captcha.fields import ReCaptchaField
 from django import forms
 from .models import Ticket
 from . import models
 
 class TicketForm(forms.ModelForm):
+    captcha = ReCaptchaField()
+
     class Meta:
         model   = Ticket
         exclude = ('enabled', )
