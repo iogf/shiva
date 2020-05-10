@@ -9,14 +9,24 @@ class TicketMixin(models.Model):
     def __str__(self):
         return '%s - %s' % (self.name, self.email)
 
+    def ticket_matches(self):
+        type = '0' if self.type == '1' else '1'
+        records = self.__class__.objects.filter(type=type, item=self.item,
+        country=self.country, city=self.city)
+        return records
+
 class Ticket(TicketMixin):
-    name = models.CharField(null=True,
+    name = models.CharField(null=False,
     blank=False, verbose_name='Name', 
     help_text='Type your name.', max_length=256)
 
+    phone = models.CharField(null=True,
+    blank=True, verbose_name='Phone', 
+    help_text='Type your phone.', max_length=256)
+
     email = models.EmailField(max_length=70, 
     verbose_name='E-mail', help_text='E-mail for contact.', 
-    null=True, blank=False)
+    null=False, blank=False)
 
     TYPE_CHOICES = (('0', 'Help'),('1','Helper'))
 
@@ -40,7 +50,7 @@ class Ticket(TicketMixin):
     # help_text='Where can you give/receive help?',
     # on_delete=models.CASCADE, default=None)
 
-    country = models.CharField(null=True,
+    country = models.CharField(null=False,
     blank=False, verbose_name='Country', 
     help_text='Type your country.', max_length=256)
 

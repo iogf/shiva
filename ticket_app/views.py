@@ -10,16 +10,24 @@ class ListTickets(View):
         return render(request, 
             'ticket_app/list-tickets.html', {'tickets': tickets})
 
+class TicketMatches(View):
+    def get(self, request, ticket_id):
+        ticket  = models.Ticket.objects.get(id=ticket_id)
+        matches = models.Ticket.ticket_matches(ticket)
+
+        return render(request, 
+            'ticket_app/ticket-matches.html', {'matches': matches})
+
 class EnableTicket(View):
-    def get(self, request):
+    def get(self, request, ticket_id):
         c_helper = models.Ticket.objects.filter(type='1')
         c_help   = models.Ticket.objects.filter(type='0')
         c_helper = c_helper.count()
         c_help   = c_help.count()
 
         return render(request, 
-            'ticket_app/enable-ticket.html', 
-                {'c_helper': c_helper, 'c_help': c_help})
+            'ticket_app/enable-ticket.html', {'c_helper': c_helper, 
+                'c_help': c_help, 'ticket_id': ticket_id})
 
 class ValidateEmail(View):
     def get(self, request):
@@ -38,8 +46,10 @@ class CreateTicket(View):
         if not form.is_valid():
             return render(request, 'ticket_app/create-ticket.html', 
                     {'form': form}, status=400)
-        form.save()
-        return redirect('ticket_app:enable-ticket')
+        ticket = form.save()
+
+        return redirect('ticket_app:enable-ticket', 
+        ticket_id=ticket.id)
 
 class DeleteTicket(View):
     def post(self, request):
