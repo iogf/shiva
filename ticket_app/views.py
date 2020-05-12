@@ -75,7 +75,12 @@ class FindTicket(View):
             return render(request, 'ticket_app/find-ticket.html', 
                     {'form': form}, status=400)
 
+        fields  = form.cleaned_data.items()
+        fields  = dict(fields)
+        print(fields)
+        records = models.Ticket.find(**fields)
+
         return render(request, 
-            'ticket_app/found-ticket.html', {})
+            'ticket_app/found-ticket.html', {'tickets': records})
 
 

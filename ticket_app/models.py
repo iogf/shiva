@@ -9,6 +9,35 @@ class TicketMixin(models.Model):
     def __str__(self):
         return '%s - %s' % (self.name, self.email)
 
+    @classmethod
+    def find(cls, type=None, item=None, name=None, phone=None, email=None, 
+        description=None, country=None, city=None):
+
+        records = cls.objects.all()
+        if city:
+            records = records.filter(city__icontains=city)
+
+        if type:
+            records = records.filter(type=type)
+        if item:
+            records = records.filter(item=item)
+        if name:
+            records = records.filter(name__icontains=name)
+
+        if description:
+            records = records.filter(
+                description__icontains=description)
+        if phone:
+            records = records.filter(phone=phone)
+
+        if country:
+            records = records.filter(
+                country__icontains=country)
+        if email:
+            records = records.objects.filter(email=email)
+
+        return records
+
     def ticket_matches(self):
         type = '0' if self.type == '1' else '1'
         records = self.__class__.objects.filter(type=type, item=self.item,
