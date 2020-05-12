@@ -1,0 +1,23 @@
+<div class="card">
+<div class="card-header">
+<b> Author: </b>{{ticket.name}} (<a href="mailto: {{ticket.email}}"> {{ticket.email}}</a>)
+<div class="float-right">
+<a href="{% url 'ticket_app:ticket-matches' ticket.id %}""> 
+<i class="fas fa-search"></i>
+Matches </a>
+</div>
+
+</div>
+
+<p> <div class="card-body"><b>Item/Service:</b> {{ticket.get_item_display}} </p>
+
+<p> <b> Phone: {{ticket.phone}} </b> </p>
+
+<p> <b> Description: {{ticket.description}} </b> </p>
+
+<p> <b> Country: {{ticket.country}} </b> </p>
+<p> <b> City: {{ticket.city}} </b> </p>
+
+</div>
+<div class="card-footer"><b> Type: </b>{{ticket.get_type_display}}</div>
+</div>

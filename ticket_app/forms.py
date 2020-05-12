@@ -20,6 +20,12 @@ class FindTicketForm(forms.Form):
     item = forms.ChoiceField(required=True, 
     choices=Ticket.ITEM_CHOICES)
 
+    country = forms.CharField(required=False, 
+    help_text='Example: India')
+
+    city = forms.CharField(required=False, 
+    help_text='Example: Rio')
+
     email = forms.EmailField(required=False, 
     help_text='Example: last.src@gmail.com')
 

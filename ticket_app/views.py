@@ -30,7 +30,9 @@ class EnableTicket(View):
                 'c_help': c_help, 'ticket_id': ticket_id})
 
 class ValidateEmail(View):
-    def get(self, request):
+    def get(self, request, ticket_id):
+        ticket  = models.Ticket.objects.get(id=ticket_id)
+
         return render(request, 
             'ticket_app/validate-email.html', {})
 
@@ -67,11 +69,13 @@ class FindTicket(View):
             'ticket_app/find-ticket.html', {'form': form})
 
     def post(self, request):
+        form = forms.FindTicketForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, 'ticket_app/find-ticket.html', 
+                    {'form': form}, status=400)
+
         return render(request, 
             'ticket_app/found-ticket.html', {})
 
 
-
-
-
-    
