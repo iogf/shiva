@@ -1,29 +1,28 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from .models import TicketToken
-from . import models
+from .models import TicketToken, Ticket
 from . import forms
 import secrets
 
 # Create your views here.
 class ListTickets(View):
     def get(self, request):
-        tickets = models.Ticket.objects.filter(enabled=True)
+        tickets = Ticket.objects.filter(enabled=True)
         return render(request, 
             'ticket_app/list-tickets.html', {'tickets': tickets})
 
 class TicketMatches(View):
     def get(self, request, ticket_id):
-        ticket  = models.Ticket.objects.get(id=ticket_id)
-        matches = models.Ticket.ticket_matches(ticket)
+        ticket  = Ticket.objects.get(id=ticket_id)
+        matches = Ticket.ticket_matches(ticket)
 
         return render(request, 
             'ticket_app/ticket-matches.html', {'matches': matches})
 
 class EnableTicket(View):
     def get(self, request, ticket_id):
-        c_helper = models.Ticket.objects.filter(type='1')
-        c_help   = models.Ticket.objects.filter(type='0')
+        c_helper = Ticket.objects.filter(type='1')
+        c_help   = Ticket.objects.filter(type='0')
         c_helper = c_helper.count()
         c_help   = c_help.count()
 
@@ -55,7 +54,7 @@ class CreateTicket(View):
                     {'form': form}, status=400)
         ticket = form.save()
 
-        token  = models.TicketToken.objects.create(
+        token  = TicketToken.objects.create(
         token=secrets.token_bytes(48), ticket=ticket)
 
         token.send_token()
@@ -86,7 +85,7 @@ class FindTicket(View):
 
         fields  = form.cleaned_data.items()
         fields  = dict(fields)
-        records = models.Ticket.find(**fields)
+        records = Ticket.find(**fields)
 
         return render(request, 
             'ticket_app/found-ticket.html', {'tickets': records})
