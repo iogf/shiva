@@ -27,14 +27,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0']
 
+# The site domain.
+SITE_ADDRESS = 'http://0.0.0.0:8000'
+
+# Email settings.
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
 # Captcha attributes.
 NOCAPTCHA = True
 
 # For debugging on 0.0.0.0.
 RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
-RECAPTCHA_PUBLIC_KEY = '6Ldyj1sUAAAAAI1p76PwkLf4R8ffLwOGmv6nhJ9H'
-RECAPTCHA_PRIVATE_KEY = '6Ldyj1sUAAAAANLQ4AZ1ho4x2iu67bvH3AOxyI3_'
 
 # django-cities-light settings.
 

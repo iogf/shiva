@@ -1,4 +1,9 @@
 from django.db import models
+from urllib.parse import urljoin
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse
+
 # from cities_light.models import City
 
 # Create your models here.
@@ -11,9 +16,9 @@ class TicketMixin(models.Model):
 
     @classmethod
     def find(cls, type=None, item=None, name=None, phone=None, email=None, 
-        description=None, country=None, city=None):
+        description=None, country=None, city=None, enabled=True):
 
-        records = cls.objects.all()
+        records = cls.objects.filter(enabled=enabled)
         if city:
             records = records.filter(city__icontains=city)
 
@@ -88,3 +93,29 @@ class Ticket(TicketMixin):
     help_text='Type your city.', max_length=256)
 
     enabled = models.BooleanField(default=False)
+
+class TicketTokenMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    def send_token(self):
+        query = reverse('ticket_app:validate-email', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token})
+        url = '%s%s' % (settings.SITE_ADDRESS, query)
+
+        subject = 'Validate your Shiva ticket.'
+        message = 'Click on the link to validate your ticket.\n%s'
+        message = message % url
+
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [self.ticket.email,]
+
+        send_mail(subject, message, email_from, recipient_list)
+
+class TicketToken(TicketTokenMixin):
+    token = models.CharField(null=False,
+    blank=False, max_length=50)
+
+    ticket = models.ForeignKey('Ticket', null=False, 
+    related_name='token', on_delete=models.CASCADE)
+

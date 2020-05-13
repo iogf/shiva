@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from .models import TicketToken
 from . import models
 from . import forms
+import secrets
 
 # Create your views here.
 class ListTickets(View):
     def get(self, request):
-        tickets = models.Ticket.objects.all()
+        tickets = models.Ticket.objects.filter(enabled=True)
         return render(request, 
             'ticket_app/list-tickets.html', {'tickets': tickets})
 
@@ -30,8 +32,11 @@ class EnableTicket(View):
                 'c_help': c_help, 'ticket_id': ticket_id})
 
 class ValidateEmail(View):
-    def get(self, request, ticket_id):
-        ticket  = models.Ticket.objects.get(id=ticket_id)
+    def get(self, request, ticket_id, token):
+        token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
+        token.ticket.enabled=True
+        token.ticket.save()
+        token.delete()
 
         return render(request, 
             'ticket_app/validate-email.html', {})
@@ -50,6 +55,10 @@ class CreateTicket(View):
                     {'form': form}, status=400)
         ticket = form.save()
 
+        token  = models.TicketToken.objects.create(
+        token=secrets.token_bytes(48), ticket=ticket)
+
+        token.send_token()
         return redirect('ticket_app:enable-ticket', 
         ticket_id=ticket.id)
 
@@ -77,7 +86,6 @@ class FindTicket(View):
 
         fields  = form.cleaned_data.items()
         fields  = dict(fields)
-        print(fields)
         records = models.Ticket.find(**fields)
 
         return render(request, 

@@ -8,7 +8,7 @@ urlpatterns = [
     path('ticket-matches/<int:ticket_id>/', views.TicketMatches.as_view(), name='ticket-matches'),
     path('create-ticket/', views.CreateTicket.as_view(), name='create-ticket'),
     path('find-ticket/', views.FindTicket.as_view(), name='find-ticket'),
-    path('validate-email/', views.ValidateEmail.as_view(), name='validate-email'),
+    path('validate-email/<int:ticket_id>/<str:token>/', views.ValidateEmail.as_view(), name='validate-email'),
 
 ]
 
