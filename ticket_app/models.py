@@ -46,7 +46,7 @@ class TicketMixin(models.Model):
     def ticket_matches(self):
         type = '0' if self.type == '1' else '1'
         records = self.__class__.objects.filter(type=type, item=self.item,
-        country=self.country, city=self.city)
+        country=self.country, city=self.city, enabled=True)
         return records
 
 class Ticket(TicketMixin):
@@ -92,6 +92,7 @@ class Ticket(TicketMixin):
     blank=False, verbose_name='City', 
     help_text='Type your city.', max_length=256)
 
+    created = models.DateTimeField(auto_now_add=True, null=True)
     enabled = models.BooleanField(default=False)
 
 class TicketTokenMixin(models.Model):
@@ -114,7 +115,7 @@ class TicketTokenMixin(models.Model):
 
 class TicketToken(TicketTokenMixin):
     token = models.CharField(null=False,
-    blank=False, max_length=50)
+    blank=False, max_length=24)
 
     ticket = models.ForeignKey('Ticket', null=False, 
     related_name='token', on_delete=models.CASCADE)

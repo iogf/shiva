@@ -11,13 +11,17 @@ Matches </a>
 
 <p> <div class="card-body"><b>Item/Service:</b> {{ticket.get_item_display}} </p>
 
-<p> <b> Phone: {{ticket.phone}} </b> </p>
+<p> <b> Phone:</b> {{ticket.phone}}  </p>
 
-<p> <b> Description: {{ticket.description}} </b> </p>
+<p> <b> Description: </b> {{ticket.description}}  </p>
 
-<p> <b> Country: {{ticket.country}} </b> </p>
-<p> <b> City: {{ticket.city}} </b> </p>
+<p> <b> Country: </b> {{ticket.country}}  </p>
+<p> <b> City: </b> {{ticket.city}}  </p>
 
 </div>
-<div class="card-footer"><b> Type: </b>{{ticket.get_type_display}}</div>
+<div class="card-footer"><b> Type: </b>{{ticket.get_type_display}}
+<div class="float-right"> <b> Created: </b> {{ticket.created}} </div>
+
+
+</div>
 </div>
