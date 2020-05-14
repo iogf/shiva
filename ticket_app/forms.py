@@ -29,6 +29,8 @@ class FindTicketForm(forms.Form):
     email = forms.EmailField(required=False, 
     help_text='Example: last.src@gmail.com')
 
+class DeleteTicketForm(forms.Form):
+    pass
 
 
 

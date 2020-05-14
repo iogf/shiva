@@ -100,14 +100,20 @@ class TicketTokenMixin(models.Model):
         abstract = True
 
     def send_token(self):
-        query = reverse('ticket_app:validate-email', kwargs={
+        query0 = reverse('ticket_app:validate-email', kwargs={
         'ticket_id': self.ticket.id, 'token': self.token})
-        url = '%s%s' % (settings.SITE_ADDRESS, query)
+
+        query1 = reverse('ticket_app:delete-ticket', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token})
+
+        url0 = '%s%s' % (settings.SITE_ADDRESS, query0)
+        url1 = '%s%s' % (settings.SITE_ADDRESS, query1)
 
         subject = 'Validate your Shiva ticket.'
-        message = 'Click on the link to validate your ticket.\n%s'
-        message = message % url
+        message = ('Click on the link to validate your ticket.\n%s\n\n'
+        'Use this link to delete your ticket.\n%s')
 
+        message    = message % (url0, url1)
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [self.ticket.email,]
 

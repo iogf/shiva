@@ -38,7 +38,7 @@ class ValidateEmail(View):
         token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
         token.ticket.enabled=True
         token.ticket.save()
-        token.delete()
+        # token.delete()
 
         return render(request, 
             'ticket_app/validate-email.html', {})
@@ -65,12 +65,29 @@ class CreateTicket(View):
         ticket_id=ticket.id)
 
 class DeleteTicket(View):
-    def post(self, request):
-        pass
+    def get(self, request, ticket_id, token):
+        # token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
+        ticket = Ticket.objects.get(id=ticket_id, token__token=token)
+        token  = ticket.token.first()
 
-class CloseTicket(View):
-    def post(self, request):
-        pass
+        return render(request, 'ticket_app/delete-ticket.html', 
+            {'ticket': ticket, 'token': token.token})
+
+    def post(self, request, ticket_id, token):
+        form = forms.DeleteTicketForm(request.POST)
+        ticket = Ticket.objects.get(id=ticket_id, token__token=token)
+        token  = ticket.token.first()
+
+        if not form.is_valid():
+            return render(request, 'ticket_app/delete-ticket.html', 
+                {'ticket': ticket, 'token': token.token})
+
+        ticket.delete()
+        return redirect('ticket_app:list-tickets')
+
+# class CloseTicket(View):
+    # def post(self, request):
+        # pass
 
 class FindTicket(View):
     def get(self, request):
