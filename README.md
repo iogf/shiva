@@ -13,6 +13,9 @@ The ticket matching criteria takes also into accout country and city.
 
 # Debug
 
+~~~
+pip install -r requirements.txt
+~~~
 
 # Credits
 
