@@ -2,6 +2,10 @@
 <div class="card-header">
 <b> Author: </b>{{ticket.name}} (<a href="mailto: {{ticket.email}}"> {{ticket.email}}</a>)
 <div class="float-right">
+<a href="{% url 'ticket_app:report-ticket' ticket.id %}""> 
+<i class="fas fa-heart-broken"></i>
+Report </a>
+
 <a href="{% url 'ticket_app:ticket-matches' ticket.id %}""> 
 <i class="fas fa-search"></i>
 Matches </a>
@@ -17,6 +21,7 @@ Matches </a>
 
 <p> <b> Country: </b> {{ticket.country}}  </p>
 <p> <b> City: </b> {{ticket.city}}  </p>
+
 
 </div>
 <div class="card-footer"><b> Type: </b>{{ticket.get_type_display}}

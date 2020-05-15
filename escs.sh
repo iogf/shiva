@@ -72,7 +72,6 @@ python manage.py blowdb
 
 python manage.py makemigrations
 python manage.py migrate
-y
 ##############################################################################
 # stress-db.
 ./stress-db teta 1

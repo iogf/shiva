@@ -42,6 +42,12 @@ RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
 ~~~
 
+Run the script below to create Django Admin Superusers.
+
+~~~
+./create-superusers
+~~~
+
 Run it like:
 
 ~~~

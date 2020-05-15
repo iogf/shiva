@@ -84,10 +84,23 @@ class DeleteTicket(View):
 
 class ReportTicket(View):
     def get(self, request, ticket_id):
-        pass
+        ticket = Ticket.objects.get(id=ticket_id)
+        form   = forms.TicketReportForm(request.POST)
+
+        return render(request, 'ticket_app/report-ticket.html', 
+            {'ticket': ticket, 'form': form})
+
 
     def post(self, request, ticket_id):
-        pass
+        form   = forms.TicketReportForm(request.POST)
+        ticket = Ticket.objects.get(id=ticket_id)
+
+        if not form.is_valid():
+            return render(request, 'ticket_app/report-ticket.html', 
+                {'ticket': ticket, 'form': form})
+        form.save()
+
+        return redirect('ticket_app:list-tickets')
 
 # class CloseTicket(View):
     # def post(self, request):

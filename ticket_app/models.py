@@ -128,7 +128,7 @@ class TicketToken(TicketTokenMixin):
     related_name='token', on_delete=models.CASCADE)
 
 class TicketReport(TicketReportMixin):
-    reason = models.TextField(null=True,
-    blank=False, verbose_name='Description', 
+    reason = models.TextField(null=False,
+    blank=False, verbose_name='Reason', 
     help_text='Type a reason.')
 

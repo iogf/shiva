@@ -3,3 +3,7 @@ from . import models
 
 # Register your models here.
 admin.site.register(models.Ticket)
+admin.site.register(models.TicketToken)
+admin.site.register(models.TicketReport)
+
+

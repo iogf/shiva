@@ -1,0 +1,45 @@
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load i18n %}
+<html lang="en">
+  <title>Shiva</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h3><i class="fas fa-heart-broken"></i> Report Ticket</h3> 
+
+</div>
+  
+<div class="container">
+
+<div class="panel panel-default">
+<div class="panel-body">
+<form action="{% url 'ticket_app:report-ticket' ticket.id %}" method="post">
+{% csrf_token %}
+
+{% bootstrap_field form.reason  size='md' %}
+
+{% bootstrap_form_errors form type='non_fields' %}
+<button type="submit" class="btn btn-success">Report</button>
+</form>
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
+
+

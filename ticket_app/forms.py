@@ -34,4 +34,4 @@ class DeleteTicketForm(forms.Form):
 class TicketReportForm(forms.ModelForm):
     class Meta:
         model   = TicketReport
-        exclude = ('reason', )
+        exclude = ()
