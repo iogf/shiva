@@ -13,9 +13,45 @@ The ticket matching criteria takes also into accout country and city.
 
 # Debug
 
+First set up a virtualenv.
+
 ~~~
+cd ~/.virtualenvs/
+virtualenv shiva -p python
+~~~
+
+Install Shiva requirements.
+
+~~~
+
 pip install -r requirements.txt
 ~~~
+
+Fill E-mail backend attributes in shiva/settings.py.
+
+~~~python
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+~~~
+
+Get Google Capitcha keys and fill the following attributes
+in shiva/settings.py.
+
+~~~
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+~~~
+
+Run it like:
+
+~~~
+cd ~/projects/shiva-code
+stdbuf -o 0 python manage.py runserver 0.0.0.0:8000
+~~~
+
+After that you should be able to access Shiva on.
+
+http://0.0.0.0:8000
 
 # Credits
 
