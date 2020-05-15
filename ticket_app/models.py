@@ -15,8 +15,8 @@ class TicketMixin(models.Model):
         return '%s - %s' % (self.name, self.email)
 
     @classmethod
-    def find(cls, type=None, item=None, name=None, phone=None, email=None, 
-        description=None, country=None, city=None, enabled=True):
+    def find(cls, type=None, item=None, name=None, phone=None, 
+        email=None, description=None, country=None, city=None, enabled=True):
 
         records = cls.objects.filter(enabled=enabled)
         if city:
@@ -28,16 +28,13 @@ class TicketMixin(models.Model):
             records = records.filter(item=item)
         if name:
             records = records.filter(name__icontains=name)
-
         if description:
-            records = records.filter(
-                description__icontains=description)
+            records = records.filter(description__icontains=description)
         if phone:
             records = records.filter(phone=phone)
 
         if country:
-            records = records.filter(
-                country__icontains=country)
+            records = records.filter(country__icontains=country)
         if email:
             records = records.objects.filter(email=email)
 
@@ -48,52 +45,6 @@ class TicketMixin(models.Model):
         records = self.__class__.objects.filter(type=type, item=self.item,
         country=self.country, city=self.city, enabled=True)
         return records
-
-class Ticket(TicketMixin):
-    name = models.CharField(null=False,
-    blank=False, verbose_name='Name', 
-    help_text='Type your name.', max_length=256)
-
-    phone = models.CharField(null=True,
-    blank=True, verbose_name='Phone', 
-    help_text='Type your phone.', max_length=256)
-
-    email = models.EmailField(max_length=70, 
-    verbose_name='E-mail', help_text='E-mail for contact.', 
-    null=False, blank=False)
-
-    TYPE_CHOICES = (('0', 'Help'),('1','Helper'))
-
-    type = models.CharField(max_length=6, 
-    verbose_name='Type', help_text='Are you an angel?', 
-    choices=TYPE_CHOICES, default='1')
-
-    ITEM_CHOICES = (('0', 'Food'), ('1','Medical'),
-    ('2','Shelter'), ('3','Clothes'))
-
-    item = models.CharField(max_length=6, 
-    verbose_name='Item', choices=ITEM_CHOICES, default='1',
-    help_text='What is it that you have/need?')
-
-    description = models.TextField(null=True,
-    blank=False, verbose_name='Description', 
-    help_text='Type a description/note.')
-
-    # country = models.ForeignKey(Country, on_delete=models.CASCADE, default=None)
-    # city = models.ForeignKey(City, verbose_name='Country/City', 
-    # help_text='Where can you give/receive help?',
-    # on_delete=models.CASCADE, default=None)
-
-    country = models.CharField(null=False,
-    blank=False, verbose_name='Country', 
-    help_text='Type your country.', max_length=256)
-
-    city = models.CharField(null=True,
-    blank=False, verbose_name='City', 
-    help_text='Type your city.', max_length=256)
-
-    created = models.DateTimeField(auto_now_add=True, null=True)
-    enabled = models.BooleanField(default=False)
 
 class TicketTokenMixin(models.Model):
     class Meta:
@@ -119,10 +70,65 @@ class TicketTokenMixin(models.Model):
 
         send_mail(subject, message, email_from, recipient_list)
 
+class TicketReportMixin(models.Model):
+    class Meta:
+        abstract = True
+
+class Ticket(TicketMixin):
+    name = models.CharField(null=False,
+    blank=False, verbose_name='Name', 
+    help_text='Type your name.', max_length=256)
+
+    phone = models.CharField(null=True,
+    blank=True, verbose_name='Phone', 
+    help_text='Type your phone.', max_length=256)
+
+    email = models.EmailField(max_length=70, 
+    verbose_name='E-mail', help_text='E-mail for contact.', 
+    null=False, blank=False)
+
+    TYPE_CHOICES = (('0', 'Help'),('1','Helper'))
+
+    type = models.CharField(max_length=6, 
+    verbose_name='Type', help_text='Are you an angel?', 
+    choices=TYPE_CHOICES, default='1')
+
+    ITEM_CHOICES = (('0', 'Food'), ('1','Medical'),
+    ('2','Shelter'), ('3','Utils/Clothes'))
+
+    item = models.CharField(max_length=6, 
+    verbose_name='Item', choices=ITEM_CHOICES, default='1',
+    help_text='What is it that you have/need?')
+
+    description = models.TextField(null=True,
+    blank=False, verbose_name='Description', 
+    help_text='Type a description/note.')
+
+    # country = models.ForeignKey(Country, on_delete=models.CASCADE, default=None)
+    # city = models.ForeignKey(City, verbose_name='Country/City', 
+    # help_text='Where can you give/receive help?',
+    # on_delete=models.CASCADE, default=None)
+
+    country = models.CharField(null=False,
+    blank=False, verbose_name='Country', 
+    help_text='Type your country.', max_length=256)
+
+    city = models.CharField(null=True,
+    blank=False, verbose_name='City', 
+    help_text='Type your city.', max_length=256)
+
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    enabled = models.BooleanField(default=False)
+
 class TicketToken(TicketTokenMixin):
     token = models.CharField(null=False,
     blank=False, max_length=24)
 
     ticket = models.ForeignKey('Ticket', null=False, 
     related_name='token', on_delete=models.CASCADE)
+
+class TicketReport(TicketReportMixin):
+    reason = models.TextField(null=True,
+    blank=False, verbose_name='Description', 
+    help_text='Type a reason.')
 

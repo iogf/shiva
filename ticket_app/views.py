@@ -66,24 +66,28 @@ class CreateTicket(View):
 
 class DeleteTicket(View):
     def get(self, request, ticket_id, token):
-        # token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
-        ticket = Ticket.objects.get(id=ticket_id, token__token=token)
-        token  = ticket.token.first()
+        token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
 
         return render(request, 'ticket_app/delete-ticket.html', 
-            {'ticket': ticket, 'token': token.token})
+            {'ticket': token.ticket, 'token': token.token})
 
     def post(self, request, ticket_id, token):
-        form = forms.DeleteTicketForm(request.POST)
-        ticket = Ticket.objects.get(id=ticket_id, token__token=token)
-        token  = ticket.token.first()
+        form   = forms.DeleteTicketForm(request.POST)
+        token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
 
         if not form.is_valid():
             return render(request, 'ticket_app/delete-ticket.html', 
-                {'ticket': ticket, 'token': token.token})
+                {'ticket': token.ticket, 'token': token.token})
 
         ticket.delete()
         return redirect('ticket_app:list-tickets')
+
+class ReportTicket(View):
+    def get(self, request, ticket_id):
+        pass
+
+    def post(self, request, ticket_id):
+        pass
 
 # class CloseTicket(View):
     # def post(self, request):

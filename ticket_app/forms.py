@@ -1,7 +1,6 @@
 from captcha.fields import ReCaptchaField
 from django import forms
-from .models import Ticket
-from . import models
+from .models import Ticket, TicketReport
 
 class TicketForm(forms.ModelForm):
     captcha = ReCaptchaField()
@@ -32,5 +31,7 @@ class FindTicketForm(forms.Form):
 class DeleteTicketForm(forms.Form):
     pass
 
-
-
+class TicketReportForm(forms.ModelForm):
+    class Meta:
+        model   = TicketReport
+        exclude = ('reason', )
