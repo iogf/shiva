@@ -6,6 +6,7 @@ urlpatterns = [
     path('list-tickets/', views.ListTickets.as_view(), name='list-tickets'),
     path('enable-ticket/<int:ticket_id>/', views.EnableTicket.as_view(), name='enable-ticket'),
     path('report-ticket/<int:ticket_id>/', views.ReportTicket.as_view(), name='report-ticket'),
+    path('load-ticket/<int:ticket_id>/', views.LoadTicket.as_view(), name='load-ticket'),
 
     path('delete-ticket/<int:ticket_id>/<str:token>/', views.DeleteTicket.as_view(), name='delete-ticket'),
     path('ticket-matches/<int:ticket_id>/', views.TicketMatches.as_view(), name='ticket-matches'),

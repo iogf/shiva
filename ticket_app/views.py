@@ -102,6 +102,13 @@ class ReportTicket(View):
 
         return redirect('ticket_app:list-tickets')
 
+class LoadTicket(View):
+    def get(self, request, ticket_id):
+        ticket = Ticket.objects.get(id=ticket_id)
+
+        return render(request, 'ticket_app/load-ticket.html', 
+            {'ticket': ticket})
+
 # class CloseTicket(View):
     # def post(self, request):
         # pass
