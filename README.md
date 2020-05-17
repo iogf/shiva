@@ -2,7 +2,7 @@ Shiva is a platform whose goal is allowing flexible means to help people.
 It is based on the concept of Tickets, when one needs help it creates a ticket,
 when one wanna help it creates a ticket.
 
-A ticket maps to some avaiable or missing resource, it can be utilities, clothes, food
+A ticket maps to some available or missing resource, it can be utilities, clothes, food
 or even a folks who are offering shelter.
 
 When a ticket mapping to an available resource is created then it performs a search for tickets
