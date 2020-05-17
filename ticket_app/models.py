@@ -115,9 +115,9 @@ class Ticket(TicketMixin):
     verbose_name='Item', choices=ITEM_CHOICES, default='1',
     help_text='What is it that you have/need?')
 
-    description = models.TextField(null=True,
-    blank=False, verbose_name='Description', 
-    help_text='Type a description/note.')
+    note = models.TextField(null=True,
+    blank=False, verbose_name='Note', 
+    help_text='Type a note.')
 
     # country = models.ForeignKey(Country, on_delete=models.CASCADE, default=None)
     # city = models.ForeignKey(City, verbose_name='Country/City', 
