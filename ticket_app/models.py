@@ -40,6 +40,13 @@ class TicketMixin(models.Model):
 
         return records
 
+    def ticket_url(self):
+        url = reverse('ticket_app:load-ticket', kwargs={
+        'ticket_id': self.id})
+
+        url = '%s%s' % (settings.SITE_ADDRESS, url)
+        return url
+
     def ticket_matches(self):
         type = '0' if self.type == '1' else '1'
         records = self.__class__.objects.filter(type=type, item=self.item,
@@ -50,15 +57,23 @@ class TicketTokenMixin(models.Model):
     class Meta:
         abstract = True
 
+    def delete_url(self):
+        url = reverse('ticket_app:delete-ticket', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token})
+        url = '%s%s' % (settings.SITE_ADDRESS, url)
+
+        return url
+
+    def vmail_url(self):
+        url = reverse('ticket_app:validate-email', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token})
+        url = '%s%s' % (settings.SITE_ADDRESS, url)
+
+        return url
+
     def send_token(self):
-        query0 = reverse('ticket_app:validate-email', kwargs={
-        'ticket_id': self.ticket.id, 'token': self.token})
-
-        query1 = reverse('ticket_app:delete-ticket', kwargs={
-        'ticket_id': self.ticket.id, 'token': self.token})
-
-        url0 = '%s%s' % (settings.SITE_ADDRESS, query0)
-        url1 = '%s%s' % (settings.SITE_ADDRESS, query1)
+        url0 = self.vmail_url()
+        url1 = self.delete_url()
 
         subject = 'Validate your Shiva ticket.'
         message = ('Click on the link to validate your ticket.\n%s\n\n'

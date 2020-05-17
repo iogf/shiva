@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from .models import TicketToken, Ticket
+from django.core.mail import send_mail
+from django.conf import settings
 from . import forms
 import secrets
 
@@ -38,8 +40,18 @@ class ValidateEmail(View):
         token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
         token.ticket.enabled=True
         token.ticket.save()
-        # token.delete()
 
+        emails  = token.ticket.ticket_matches()
+        emails  = emails.distinct()
+        emails  = emails.values_list('email', flat=True)
+        url     = token.ticket.ticket_url()
+        message = 'Check this new %s ticket!\n %s'
+        subject = 'Shiva New Ticket!'
+
+        message    = message % (token.ticket.type, url)
+        email_from = settings.EMAIL_HOST_USER
+
+        send_mail(subject, message, email_from, emails)
         return render(request, 
             'ticket_app/validate-email.html', {})
 
