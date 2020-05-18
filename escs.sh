@@ -8,16 +8,6 @@ git status
 git add *
 git commit -a
 git push -u origin staging
-#############################################################################
-# push shiva django-v2 branch.
-cd ~/projects/shiva-code
-# clean up all .pyc files. 
-find . -name "*.pyc" -exec rm -f {} \;
-rm -fr ~/projects/shiva-code/static/media
-git status
-git add *
-git commit -a
-git push -u origin django-v2
 ##############################################################################
 # push shiva on master.
 cd ~/projects/shiva-code

@@ -10,14 +10,19 @@ class TicketForm(forms.ModelForm):
         exclude = ('enabled', )
 
 class FindTicketForm(forms.Form):
+    ITEM_TYPE_CHOICES = (('', '------'), ('0', 'Food'), 
+    ('1','Medical'), ('2','Shelter'), ('3','Utils/Clothes'))
+
+    TYPE_CHOICES = (('', '------'), ('0', 'Help'),('1','Helper'))
+
     name = forms.CharField(required=False, 
     help_text='Example: Tau')
 
-    type = forms.ChoiceField(required=True, 
-    choices=Ticket.TYPE_CHOICES)
+    type = forms.ChoiceField(required=False, 
+    choices=TYPE_CHOICES)
 
-    item = forms.ChoiceField(required=True, 
-    choices=Ticket.ITEM_CHOICES)
+    item_type = forms.ChoiceField(required=False, 
+    choices=ITEM_TYPE_CHOICES)
 
     country = forms.CharField(required=False, 
     help_text='Example: India')

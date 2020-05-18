@@ -15,7 +15,7 @@ class TicketMixin(models.Model):
         return '%s - %s' % (self.name, self.email)
 
     @classmethod
-    def find(cls, type=None, item=None, name=None, phone=None, 
+    def find(cls, type=None, item_type=None, name=None, phone=None, 
         email=None, description=None, country=None, city=None, enabled=True):
 
         records = cls.objects.filter(enabled=enabled)
@@ -24,8 +24,8 @@ class TicketMixin(models.Model):
 
         if type:
             records = records.filter(type=type)
-        if item:
-            records = records.filter(item=item)
+        if item_type:
+            records = records.filter(item_type=item_type)
         if name:
             records = records.filter(name__icontains=name)
         if description:
@@ -49,7 +49,7 @@ class TicketMixin(models.Model):
 
     def ticket_matches(self):
         type = '0' if self.type == '1' else '1'
-        records = self.__class__.objects.filter(type=type, item=self.item,
+        records = self.__class__.objects.filter(type=type, item_type=self.item_type,
         country=self.country, city=self.city, enabled=True)
         return records
 
@@ -108,11 +108,11 @@ class Ticket(TicketMixin):
     verbose_name='Type', help_text='Are you an angel?', 
     choices=TYPE_CHOICES, default='1')
 
-    ITEM_CHOICES = (('0', 'Food'), ('1','Medical'),
+    ITEM_TYPE_CHOICES = (('0', 'Food'), ('1','Medical'),
     ('2','Shelter'), ('3','Utils/Clothes'))
 
-    item = models.CharField(max_length=6, 
-    verbose_name='Item', choices=ITEM_CHOICES, default='1',
+    item_type = models.CharField(max_length=6, 
+    verbose_name='Item Type', choices=ITEM_TYPE_CHOICES, default='1',
     help_text='What is it that you have/need?')
 
     note = models.TextField(null=True,

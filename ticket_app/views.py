@@ -142,7 +142,7 @@ class FindTicket(View):
         fields  = form.cleaned_data.items()
         fields  = dict(fields)
         records = Ticket.find(**fields)
-        records = tickets.order_by('-created')
+        records = records.order_by('-created')
 
         return render(request, 
             'ticket_app/found-ticket.html', {'tickets': records})
