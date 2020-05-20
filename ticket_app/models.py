@@ -102,7 +102,7 @@ class Ticket(TicketMixin):
     verbose_name='E-mail', help_text='E-mail for contact.', 
     null=False, blank=False)
 
-    TYPE_CHOICES = (('0', 'Help'),('1','Helper'))
+    TYPE_CHOICES = (('0', 'Need help!'),('1','Can help!'))
 
     type = models.CharField(max_length=6, 
     verbose_name='Type', help_text='Are you an angel?', 
