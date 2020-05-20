@@ -1,5 +1,5 @@
 # Import base settings.
-from shiva.settings import *
+from shiva.base import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '*7y@tp@b3d1kr900sre3jy)i@(+1113!n_js^&%frs$qtgnosi'
