@@ -44,6 +44,7 @@ NOCAPTCHA = True
 # For debugging on 0.0.0.0.
 RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
+'
 
 # django-cities-light settings.
 
@@ -149,3 +150,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR,  'static/')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'shiva', 'static'),
+)

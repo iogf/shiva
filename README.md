@@ -44,9 +44,15 @@ EMAIL_HOST_PASSWORD = ''
 Get Google Capitcha keys and fill the following attributes
 in shiva/settings.py.
 
+https://developers.google.com/recaptcha/intro
+
 ~~~
-RECAPTCHA_PUBLIC_KEY = ''
-RECAPTCHA_PRIVATE_KEY = ''
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 ~~~
 
 Run the script below to create Django Admin Superusers.
