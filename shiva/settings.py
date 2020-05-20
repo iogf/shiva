@@ -1,6 +1,9 @@
 # Import base settings.
 from shiva.base import *
 
+# The site domain.
+SITE_ADDRESS = 'http://0.0.0.0:8000'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '*7y@tp@b3d1kr900sre3jy)i@(+1113!n_js^&%frs$qtgnosi'
 # SECURITY WARNING: don't run with debug turned on in production!

@@ -38,6 +38,9 @@ pip install -r requirements.txt
 Fill E-mail backend attributes in shiva/settings.py.
 
 ~~~python
+# The site domain.
+SITE_ADDRESS = 'http://0.0.0.0:8000'
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
