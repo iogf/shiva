@@ -13,11 +13,13 @@ criteria takes also into accout country and city.
 When a ticket is created then an E-mail is sent to the ticket's author to validate the ticket it
 comes with a deletion link that is used to remove the ticket later. 
 
-The rationale to not have a login mechanism consists of the fact that people who are in 
-need of basic resources to survive are unlikely to have access to a device with internet. 
+The rationale to not demand a login mechanism consists of the fact that people who are in 
+need of basic resources to survive are unlikely to have access to a device with internet nor 
+an E-mail account. 
 
-The current approach allows one to use someone's else device to create a ticket and get 
-contacted with no direct need of internet access.
+The actual approach of having validation/deletion links for tickets it allows third parties 
+to ask for help on one behalf with simplicity. 
+
 
 # Debug
 
