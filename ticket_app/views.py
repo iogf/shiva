@@ -26,6 +26,8 @@ class TicketMatches(View):
 
 class EnableTicket(View):
     def get(self, request, ticket_id):
+        ticket = Ticket.objects.get(id=ticket_id)
+
         c_helper = Ticket.objects.filter(type='1', enabled=True)
         c_help   = Ticket.objects.filter(type='0', enabled=True)
         c_helper = c_helper.count()
@@ -33,7 +35,7 @@ class EnableTicket(View):
 
         return render(request, 
             'ticket_app/enable-ticket.html', {'c_helper': c_helper, 
-                'c_help': c_help, 'ticket_id': ticket_id})
+                'c_help': c_help, 'ticket': ticket})
 
 class ValidateEmail(View):
     def get(self, request, ticket_id, token):

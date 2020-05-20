@@ -19,10 +19,13 @@
   <p> There are {{c_helper}} angels and {{c_help}} people looking for help.</p>
 
   <a href="{% url 'ticket_app:list-tickets' %}"> <i class="fas fa-home"></i> Back </a>
-  <a href="{% url 'ticket_app:ticket-matches' ticket_id %}"> <i class="fas fa-search"></i> Matches </a>
 
 </div>
 
+<div class="container">
+{% include 'ticket_app/ticket-model.html' with ticket=ticket %}
+
+</div>
 
 </body>
 </html>
