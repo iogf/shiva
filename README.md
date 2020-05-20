@@ -38,6 +38,10 @@ pip install -r requirements.txt
 Fill E-mail backend attributes in shiva/settings.py.
 
 ~~~python
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 ~~~
@@ -47,13 +51,19 @@ in shiva/settings.py.
 
 https://developers.google.com/recaptcha/intro
 
+**Note:** You should add http://0.0.0.0:8000 in your Google Capitcha
+domain to allow it working when in debug mode on port 8000. 
+
 ~~~
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+# For debugging on 0.0.0.0.
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+~~~
+
+# Migrate.
+
+~~~
+python manage.py migrate
 ~~~
 
 Run the script below to create Django Admin Superusers.
