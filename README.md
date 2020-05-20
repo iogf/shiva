@@ -3,7 +3,7 @@ It is based on the concept of Tickets, when one needs help it creates a ticket,
 when one wanna help it creates a ticket.
 
 A ticket maps to some available or missing resource, it can be utilities, clothes, food
-or even a folks who are offering shelter.
+or even folks who are offering shelter.
 
 When a ticket mapping to an available resource is created then it performs a search for tickets
 from people who are in need of help for that kind of resource then an E-mail is sent
@@ -15,6 +15,7 @@ comes with a deletion link that is used to remove the ticket later.
 
 The rationale to not have a login mechanism consists of the fact that people who are in 
 need of basic resources to survive are unlikely to have access to a device with internet. 
+
 The current approach allows one to use someone's else device to create a ticket and get 
 contacted with no direct need of internet access.
 
