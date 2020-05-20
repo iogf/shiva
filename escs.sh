@@ -132,3 +132,4 @@ python manage.py migrate
 
 ./manage.py cities_light_fixtures dump
 ./manage.py cities_light_fixtures load
+
