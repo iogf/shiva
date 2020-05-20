@@ -60,7 +60,7 @@ RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
 ~~~
 
-# Migrate.
+Migrate with.
 
 ~~~
 python manage.py migrate
