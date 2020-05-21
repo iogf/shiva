@@ -135,3 +135,7 @@ python manage.py migrate
 ##############################################################################
 # Start django shell.
 python manage.py shell --settings=shiva.settings
+##############################################################################
+# Run tests.
+python manage.py test
+

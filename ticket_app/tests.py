@@ -1,8 +1,10 @@
 from django.test import TestCase, Client
 from ticket_app.models import Ticket, TicketToken
 from django.conf import settings
+from django.core import mail
 from datetime import date
 from django.urls import reverse
+import secrets
 
 # Create your tests here.
 
@@ -21,6 +23,9 @@ class TicketUrlMT(TestCase):
         url1 = '%s%s' % (settings.SITE_ADDRESS, url1)
 
         self.assertEqual(url0, url1)
+
+        response = self.client.get(url1)
+        self.assertEqual(response.status_code, 200)
 
 class FindMT(TestCase):
     def setUp(self):
@@ -104,4 +109,96 @@ class TicketMatchesMT(TestCase):
 
         records = self.ticket1.ticket_matches()
         self.assertIn(self.ticket0, records)
+
+
+class DeleteUrlTTM(TestCase):
+    def setUp(self):
+        self.ticket = Ticket.objects.create(name='Zarathustra', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.token  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket)
+
+    def test(self):
+        url0 = self.token.delete_url()
+
+        url1 = reverse('ticket_app:delete-ticket', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token.token})
+        url1 = '%s%s' % (settings.SITE_ADDRESS, url1)
+
+        self.assertEqual(url0, url1)
+
+        response = self.client.get(url1)
+        self.assertEqual(response.status_code, 200)
+
+class VMailUrlTTM(TestCase):
+    def setUp(self):
+        self.ticket = Ticket.objects.create(name='alpha', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.token  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket)
+
+    def test(self):
+        url0 = self.token.vmail_url()
+
+        url1 = reverse('ticket_app:validate-email', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token.token})
+        url1 = '%s%s' % (settings.SITE_ADDRESS, url1)
+
+        self.assertEqual(url0, url1)
+
+        response = self.client.get(url1)
+        self.assertEqual(response.status_code, 200)
+
+class ExpirationUrlTTM(TestCase):
+    def setUp(self):
+        self.ticket = Ticket.objects.create(name='beta', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.token  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket)
+
+    def test(self):
+        url0 = self.token.expiration_url()
+
+        url1 = reverse('ticket_app:avoid-expiration', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token.token})
+        url1 = '%s%s' % (settings.SITE_ADDRESS, url1)
+
+        self.assertEqual(url0, url1)
+
+        response = self.client.get(url1)
+        self.assertEqual(response.status_code, 200)
+
+class SendTokenTTM(TestCase):
+    def setUp(self):
+        self.ticket = Ticket.objects.create(name='beta', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.token  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket)
+
+    def test(self):
+        self.token.send_token()
+
+        url0 = self.token.vmail_url()
+        url1 = self.token.delete_url()
+        url2 = self.token.expiration_url()
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Validate your Shiva ticket.')
+        self.assertIn(url0, mail.outbox[0].message().get_payload())
+        self.assertIn(url1, mail.outbox[0].message().get_payload())
+        self.assertIn(url2, mail.outbox[0].message().get_payload())
+
+
 
