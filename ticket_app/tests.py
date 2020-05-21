@@ -8,7 +8,7 @@ import secrets
 
 # Create your tests here.
 
-class TicketUrlMT(TestCase):
+class TicketUrlTM(TestCase):
     def setUp(self):
         self.ticket = Ticket.objects.create(name='Zarathustra', 
         phone='22 4123321', email='last.src@gmail.com', note='Pls', 
@@ -27,7 +27,7 @@ class TicketUrlMT(TestCase):
         response = self.client.get(url1)
         self.assertEqual(response.status_code, 200)
 
-class FindMT(TestCase):
+class FindTM(TestCase):
     def setUp(self):
         self.ticket = Ticket.objects.create(name='Zarathustra', type='0',
         phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
@@ -59,7 +59,7 @@ class FindMT(TestCase):
         records = Ticket.find(city='rio')
         self.assertIn(self.ticket, records)
 
-class TicketMatchesMT(TestCase):
+class TicketMatchesTM(TestCase):
     def setUp(self):
         self.ticket0 = Ticket.objects.create(name='Zarathustra', type='0',
         phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
@@ -200,5 +200,28 @@ class SendTokenTTM(TestCase):
         self.assertIn(url1, mail.outbox[0].message().get_payload())
         self.assertIn(url2, mail.outbox[0].message().get_payload())
 
+class ListTicketsV(TestCase):
+    def setUp(self):
+        self.ticket0 = Ticket.objects.create(name='beta', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.ticket1 = Ticket.objects.create(name='gamma', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.token0  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket0)
+
+        self.token1  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket1)
+
+    def test(self):
+        url = reverse('ticket_app:list-tickets', kwargs={})
+        response = self.client.get(url)
+        self.assertEqual(self.ticket0, response.context['tickets'][1])
+        self.assertEqual(self.ticket1, response.context['tickets'][0])
 
 
