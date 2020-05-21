@@ -54,3 +54,54 @@ class FindMT(TestCase):
         records = Ticket.find(city='rio')
         self.assertIn(self.ticket, records)
 
+class TicketMatchesMT(TestCase):
+    def setUp(self):
+        self.ticket0 = Ticket.objects.create(name='Zarathustra', type='0',
+        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.ticket1 = Ticket.objects.create(name='Tau', type='1',
+        phone='22 4123321', email='sukhoi696@gmail.com', 
+        note='Pls', item_type='0',country='Brazil', state='RJ', city='', 
+        expiration=date.today(), enabled=True)
+
+        self.ticket2 = Ticket.objects.create(name='UnknownSoldier', type='1',
+        phone='22 29382', email='fuinho@gmail.com', 
+        note='Pls', item_type='0',country='Brazil', state='RJ', city='', 
+        expiration=date.today(), enabled=False)
+
+        self.ticket3 = Ticket.objects.create(name='Ticiane', type='1',
+        phone='22 112', email='perninhasdesaracura@gmail.com', 
+        note='Pls', item_type='1',country='Brazil', state='RJ', city='', 
+        expiration=date.today(), enabled=False)
+
+        self.ticket4 = Ticket.objects.create(name='Rafaela', type='1',
+        phone='22 29382', email='bobsponja@gmail.com', note='Pls', 
+        item_type='0',country='Brazil', expiration=date.today(),
+        state='RJ', city='Rio de Fevereiro', enabled=True)
+
+        self.ticket5 = Ticket.objects.create(name='Foobar', type='1',
+        phone='22 29382', email='foobar@gmail.com', note='Pls', 
+        item_type='0',country='Brazil', expiration=date.today(),
+        state='RJ', city='', enabled=True)
+
+    def test(self):
+        records = self.ticket0.ticket_matches()
+        self.assertNotIn(self.ticket1, records)
+
+        records = self.ticket0.ticket_matches()
+        self.assertNotIn(self.ticket2, records)
+
+        records = self.ticket0.ticket_matches()
+        self.assertNotIn(self.ticket3, records)
+
+        records = self.ticket0.ticket_matches()
+        self.assertIn(self.ticket4, records)
+
+        records = self.ticket0.ticket_matches()
+        self.assertNotIn(self.ticket5, records)
+
+        records = self.ticket1.ticket_matches()
+        self.assertIn(self.ticket0, records)
+
