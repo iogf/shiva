@@ -57,7 +57,7 @@ class TicketMixin(models.Model):
         query = Q(type=type, item_type=self.item_type,
         country=self.country, state=self.state, enabled=True)
 
-        if self.city:
+        if self.city and self.type=='0':
             query = query & Q(city=self.city)
 
         records = self.__class__.objects.filter(query)
