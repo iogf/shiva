@@ -13,6 +13,7 @@ urlpatterns = [
     path('create-ticket/', views.CreateTicket.as_view(), name='create-ticket'),
     path('find-ticket/', views.FindTicket.as_view(), name='find-ticket'),
     path('validate-email/<int:ticket_id>/<str:token>/', views.ValidateEmail.as_view(), name='validate-email'),
+    path('avoid-expiration/<int:ticket_id>/<str:token>/', views.AvoidExpiration.as_view(), name='avoid-expiration'),
 
 ]
 

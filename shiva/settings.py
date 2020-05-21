@@ -1,6 +1,9 @@
 # Import base settings.
 from shiva.base import *
 
+# 30 days until ticket expiraion.
+TICKET_EXPIRATION = 30
+
 # The site domain.
 SITE_ADDRESS = 'http://0.0.0.0:8000'
 

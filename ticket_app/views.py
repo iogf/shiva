@@ -3,6 +3,7 @@ from django.views.generic import View
 from .models import TicketToken, Ticket
 from django.core.mail import send_mail
 from django.conf import settings
+from datetime import date, timedelta
 from . import forms
 import secrets
 
@@ -37,6 +38,17 @@ class EnableTicket(View):
             'ticket_app/enable-ticket.html', {'c_helper': c_helper, 
                 'c_help': c_help, 'ticket': ticket})
 
+class AvoidExpiration(View):
+    def get(self, request, ticket_id, token):
+        ticket = Ticket.objects.get(id=ticket_id)
+        delta = timedelta(days=settings.TICKET_EXPIRATION)
+
+        ticket.expiration = date.today() + delta
+        ticket.save()
+
+        return render(request, 
+            'ticket_app/avoid-expiration.html', {'ticket': ticket})
+
 class ValidateEmail(View):
     def get(self, request, ticket_id, token):
         token  = TicketToken.objects.get(token=token, ticket__id=ticket_id)
@@ -69,7 +81,11 @@ class CreateTicket(View):
         if not form.is_valid():
             return render(request, 'ticket_app/create-ticket.html', 
                     {'form': form}, status=400)
-        ticket = form.save()
+
+        ticket = form.save(commit=False)
+        delta  = timedelta(settings.TICKET_EXPIRATION)
+        ticket.expiration = date.today() + delta
+        ticket.save()
 
         token  = TicketToken.objects.create(
         token=secrets.token_urlsafe(24), ticket=ticket)

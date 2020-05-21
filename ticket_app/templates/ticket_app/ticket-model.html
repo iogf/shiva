@@ -20,13 +20,16 @@ Matches </a>
 <p> <b> Note: </b> {{ticket.note}}  </p>
 
 <p> <b> Country: </b> {{ticket.country}}  </p>
+
+<p> <b> State: </b> {{ticket.state}}  </p>
+
 <p> <b> City: </b> {{ticket.city}}  </p>
 
 
 </div>
 <div class="card-footer"><b> Type: </b>{{ticket.get_type_display}}
-<div class="float-right"> <b> Created: </b> {{ticket.created}} </div>
-
+<div class="float-right"> <b> Created/Expiration: </b> 
+{{ticket.created}} - {{ticket.expiration}} </div>
 
 </div>
 </div>

@@ -27,6 +27,9 @@ class FindTicketForm(forms.Form):
     country = forms.CharField(required=False, 
     help_text='Example: India')
 
+    state = forms.CharField(required=False, 
+    help_text='Example: RJ')
+
     city = forms.CharField(required=False, 
     help_text='Example: Rio')
 

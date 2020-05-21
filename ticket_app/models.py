@@ -71,15 +71,27 @@ class TicketTokenMixin(models.Model):
 
         return url
 
+    def expiration_url(self):
+        url = reverse('ticket_app:avoid-expiration', kwargs={
+        'ticket_id': self.ticket.id, 'token': self.token})
+        url = '%s%s' % (settings.SITE_ADDRESS, url)
+
+        return url
+
     def send_token(self):
         url0 = self.vmail_url()
         url1 = self.delete_url()
+        url2 = self.expiration_url()
 
         subject = 'Validate your Shiva ticket.'
         message = ('Click on the link to validate your ticket.\n%s\n\n'
-        'Use this link to delete your ticket.\n%s')
+        'Use this link to delete your ticket.\n%s\n\n'
+        'Link to avoid ticket expiration\n%s\n\n'
+        'Your ticket will expire on %s\n')
 
-        message    = message % (url0, url1)
+        message = message % (url0, url1, 
+        self.ticket.expiration, url2)
+
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [self.ticket.email,]
 
@@ -96,7 +108,7 @@ class Ticket(TicketMixin):
 
     phone = models.CharField(null=True,
     blank=True, verbose_name='Phone', 
-    help_text='Type your phone.', max_length=256)
+    help_text='Type your phone.', max_length=30)
 
     email = models.EmailField(max_length=70, 
     verbose_name='E-mail', help_text='E-mail for contact.', 
@@ -126,11 +138,17 @@ class Ticket(TicketMixin):
 
     country = models.CharField(null=False,
     blank=False, verbose_name='Country', 
-    help_text='Type your country.', max_length=256)
+    help_text='Type your country.', max_length=60)
+
+    state = models.CharField(null=True,
+    blank=False, verbose_name='State', 
+    help_text='Type your state.', max_length=60)
 
     city = models.CharField(null=True,
     blank=False, verbose_name='City', 
-    help_text='Type your city.', max_length=256)
+    help_text='Type your city.', max_length=60)
+
+    expiration = models.DateTimeField(blank=True, null=False)
 
     created = models.DateTimeField(auto_now_add=True, null=True)
     enabled = models.BooleanField(default=False)

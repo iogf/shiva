@@ -25,6 +25,9 @@ SECRET_KEY = '*7y@tp@b3d1kr900sre3jy)i@(+1113!n_js^&%frs$qtgnosi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 30 days until ticket expiraion.
+TICKET_EXPIRATION = 30
+
 ALLOWED_HOSTS = ['0.0.0.0']
 
 # The site domain.
