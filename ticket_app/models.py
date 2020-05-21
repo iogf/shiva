@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from urllib.parse import urljoin
 from django.core.mail import send_mail
 from django.conf import settings
@@ -16,7 +17,7 @@ class TicketMixin(models.Model):
 
     @classmethod
     def find(cls, type=None, item_type=None, name=None, phone=None, 
-        email=None, description=None, country=None, city=None, enabled=True):
+        email=None, description=None, country=None, state=None, city=None, enabled=True):
 
         records = cls.objects.filter(enabled=enabled)
         if city:
@@ -35,6 +36,10 @@ class TicketMixin(models.Model):
 
         if country:
             records = records.filter(country__icontains=country)
+
+        if state:
+            records = records.filter(state__icontains=state)
+
         if email:
             records = records.objects.filter(email=email)
 
@@ -49,8 +54,12 @@ class TicketMixin(models.Model):
 
     def ticket_matches(self):
         type = '0' if self.type == '1' else '1'
-        records = self.__class__.objects.filter(type=type, item_type=self.item_type,
-        country=self.country, city=self.city, enabled=True)
+        query = Q(type=type, item_type=self.item_type,
+        country=self.country, state=self.state, enabled=True)
+        if self.city:
+            query = query | Q(city=self.city)
+
+        records = self.__class__.objects.filter(query)
         return records
 
 class TicketTokenMixin(models.Model):
@@ -145,8 +154,8 @@ class Ticket(TicketMixin):
     help_text='Type your state.', max_length=60)
 
     city = models.CharField(null=True,
-    blank=False, verbose_name='City', 
-    help_text='Type your city.', max_length=60)
+    blank=True, help_text='Type your city. (Optional)', 
+    max_length=60, verbose_name='City')
 
     expiration = models.DateTimeField(blank=True, null=False)
 
