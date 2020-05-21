@@ -132,3 +132,6 @@ python manage.py migrate
 
 ./manage.py cities_light_fixtures dump
 ./manage.py cities_light_fixtures load
+##############################################################################
+# Start django shell.
+python manage.py shell --settings=shiva.settings

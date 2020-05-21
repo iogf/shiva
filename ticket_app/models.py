@@ -41,7 +41,7 @@ class TicketMixin(models.Model):
             records = records.filter(state__icontains=state)
 
         if email:
-            records = records.objects.filter(email=email)
+            records = records.filter(email=email)
 
         return records
 
