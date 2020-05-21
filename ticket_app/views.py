@@ -109,7 +109,7 @@ class DeleteTicket(View):
             return render(request, 'ticket_app/delete-ticket.html', 
                 {'ticket': token.ticket, 'token': token.token})
 
-        ticket.delete()
+        token.ticket.delete()
         return redirect('ticket_app:list-tickets')
 
 class ReportTicket(View):
