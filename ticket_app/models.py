@@ -102,10 +102,9 @@ class TicketTokenMixin(models.Model):
         message = message % (url0, url1, 
         self.ticket.expiration, url2)
 
-        email_from = settings.EMAIL_HOST_USER
         recipient_list = [self.ticket.email,]
 
-        send_mail(subject, message, email_from, recipient_list)
+        send_mail(subject, message, settings.EMAIL_FROM, recipient_list)
 
 class TicketReportMixin(models.Model):
     class Meta:

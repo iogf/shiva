@@ -63,9 +63,8 @@ class ValidateEmail(View):
         subject = 'Shiva New Ticket!'
 
         message    = message % (token.ticket.type, url)
-        email_from = settings.EMAIL_HOST_USER
 
-        send_mail(subject, message, email_from, emails)
+        send_mail(subject, message, settings.EMAIL_FROM, emails)
         return render(request, 
             'ticket_app/validate-email.html', {})
 
