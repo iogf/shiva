@@ -1,7 +1,7 @@
 # Import base settings.
 from shiva.base import *
 
-DEBUG = False
+DEBUG = True
 
 # 30 days until ticket expiraion.
 TICKET_EXPIRATION = 30
