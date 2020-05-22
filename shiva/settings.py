@@ -25,8 +25,9 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
 # If you aren't using something like sendgrid single sender.
-# Then EMAIL_FROM = EMAIL_HOST_USER
+# Then EMAIL_FROM = EMAIL_HOST_USER = SERVER_EMAIL
 EMAIL_FROM = ''
+SERVER_EMAIL = ''
 
 # Captcha attributes. When running tests set it to False.
 NOCAPTCHA = True
