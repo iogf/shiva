@@ -51,7 +51,10 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
+# If you aren't using something like sendgrid single sender verification
+# then EMAIL_FROM = EMAIL_HOST_USER = SERVER_EMAIL
 EMAIL_FROM = ''
+SERVER_EMAIL = ''
 ~~~
 
 Get Google Capitcha keys and fill the following attributes
