@@ -251,8 +251,8 @@ class TicketMatchesV(TestCase):
 
 class CreateTicketV(TestCase):
     def setUp(self):
-        self.ticket = Ticket.objects.create(name='hehe', type='0',
-        phone='22 4123321', email='ooo.src@gmail.com', note='Pls', item_type='0',
+        self.ticket = Ticket.objects.create(name='hehe', type='1',
+        phone='22 4123321', email='test.src@gmail.com', note='Pls', item_type='0',
         country='Brazil', state='RJ', city='Rio de Fevereiro', 
         expiration=date.today())
 
@@ -272,12 +272,38 @@ class CreateTicketV(TestCase):
         self.assertIn(url1, response.url)
 
         self.assertEqual(len(mail.outbox), 1)
-
-        url2 = ticket.token.first().vmail_url()
-        url3 = ticket.token.first().delete_url()
-        url4 = ticket.token.first().expiration_url()
+        token = ticket.token.first()
+        url2 = token.vmail_url()
+        url3 = token.delete_url()
+        url4 = token.expiration_url()
 
         self.assertIn(url2, mail.outbox[0].message().get_payload())
         self.assertIn(url3, mail.outbox[0].message().get_payload())
         self.assertIn(url4, mail.outbox[0].message().get_payload())
 
+        url5 = reverse('ticket_app:validate-email',
+        kwargs={'ticket_id': ticket.id, 'token': token.token})
+
+        response = self.client.get(url5)
+        self.assertEqual(response.status_code, 200)
+
+        # Make sure the ticket was enabled. The existing Ticket
+        # instance is not updated in regard to the view workings.
+        ticket = Ticket.objects.get(id=ticket.id)
+        self.assertTrue(ticket.enabled)
+
+class DeleteTicketV(TestCase):
+    def setUp(self):
+        self.ticket = Ticket.objects.create(name='hehe', type='0',
+        phone='22 4123321', email='ooo.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today())
+
+        self.token  = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket)
+
+    def test(self):
+        url = reverse('ticket_app:delete-ticket', 
+        kwargs={'ticket_id': self.ticket.id, 'token': self.token.token})
+
+        response = self.client.post(url, payload={})
