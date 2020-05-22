@@ -96,7 +96,7 @@ class TicketTokenMixin(models.Model):
         subject = 'Validate your Shiva ticket.'
         message = ('Click on the link to validate your ticket.\n%s\n\n'
         'Use this link to delete your ticket.\n%s\n\n'
-        'Link to avoid ticket expiration\n%s\n\n'
+        'Link to avoid ticket expiration on %s\n\n'
         'Your ticket will expire on %s\n')
 
         message = message % (url0, url1, 

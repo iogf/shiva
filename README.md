@@ -11,7 +11,7 @@ to those people to inform them of new available resources. The ticket matching
 criteria takes also into accout country and city. 
 
 When a ticket is created then an E-mail is sent to the ticket's author to validate the ticket it
-comes with a deletion link that is used to remove the ticket later. 
+comes with a deletion and avoid expiration link that is used to remove the ticket later. 
 
 The rationale to not demand a login mechanism consists of the fact that people who are in 
 need of basic resources to survive are unlikely to have access to a device with internet nor 
@@ -87,6 +87,25 @@ stdbuf -o 0 python manage.py runserver 0.0.0.0:8000
 After that you should be able to access Shiva on.
 
 http://0.0.0.0:8000
+
+**Note:** You should have the attribute below in your settings.py
+in order to run tests. It is to bypass google captcha.
+
+Tickets usually will have an expiration date unless it is meant to be permanent. That feature
+will be implemented yet. There is a ticket_app/management/commands/run_expiration 
+command to check ticket expiration. You could run it with a cron job.
+
+
+~~~python
+
+NOCAPTCHA = True
+
+~~~
+
+# Next Step
+
+The next steps would be getting people interested to test, contribute with ideas
+and mostly translation for other languages.
 
 # Credits
 
