@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from .models import TicketToken, Ticket
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins
 from django.conf import settings
 from datetime import date, timedelta
 from . import forms
@@ -128,8 +128,12 @@ class ReportTicket(View):
         if not form.is_valid():
             return render(request, 'ticket_app/report-ticket.html', 
                 {'ticket': ticket, 'form': form})
-        form.save()
+        report = form.save()
 
+        message = ('This ticket %s was reported.\n\n%s\n\n' 
+        'Report ID: %s') % (ticket.ticket_url(), report.reason, report.id)
+
+        mail_admins('Ticket Report.', message)
         return redirect('ticket_app:list-tickets')
 
 class LoadTicket(View):

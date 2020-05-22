@@ -48,6 +48,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
+EMAIL_FROM = ''
 ~~~
 
 Get Google Capitcha keys and fill the following attributes
@@ -63,6 +65,15 @@ domain to allow it working when in debug mode on port 8000.
 RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
 ~~~
+
+Set your site admins with:
+
+~~~
+ADMINS = [('Yourname', 'Youremail')]
+~~~
+
+That attribute defines who will get notified when tickets are reported.
+It works only when DEBUG = False.
 
 Migrate with.
 
@@ -94,6 +105,8 @@ Tickets usually will have an expiration date unless it is meant to be permanent.
 will be implemented yet. There is a ticket_app/management/commands/run_expiration 
 command to check ticket expiration. You could run it with a cron job.
 
+There is a mechanism of reporting tickets, when a ticket is reported then an E-mail
+is sent to all django site admins.
 
 ~~~python
 

@@ -1,6 +1,8 @@
 # Import base settings.
 from shiva.base import *
 
+DEBUG = False
+
 # 30 days until ticket expiraion.
 TICKET_EXPIRATION = 30
 
@@ -21,7 +23,10 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-EMAIL_FROM = 'sukhoi696@gmail.com'
+
+# If you aren't using something like sendgrid single sender.
+# Then EMAIL_FROM = EMAIL_HOST_USER
+EMAIL_FROM = ''
 
 # Captcha attributes. When running tests set it to False.
 NOCAPTCHA = True
@@ -29,3 +34,6 @@ NOCAPTCHA = True
 # For debugging on 0.0.0.0.
 RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
+
+# When will get notifed of ticket reports.
+ADMINS = [('tau', 'last.src@gmail.com')]
