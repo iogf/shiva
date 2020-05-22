@@ -307,6 +307,15 @@ class ValidateEmailV(TestCase):
         self.token2 = TicketToken.objects.create(
         token=secrets.token_urlsafe(24), ticket=self.ticket2)
 
+        self.ticket3 = Ticket.objects.create(name='user3', type='1', enabled=True,
+        phone='22 4123321', email='user3@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', alert_me=False,
+        expiration=date.today())
+
+        self.token3 = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket3)
+
+
     def test(self):
         url0 = reverse('ticket_app:validate-email',
         kwargs={'ticket_id': self.ticket0.id, 'token': self.token0.token})
