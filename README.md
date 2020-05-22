@@ -5,10 +5,9 @@ when one wanna help it creates a ticket.
 A ticket maps to some available or missing resource, it can be utilities, clothes, food
 or even folks who are offering shelter.
 
-When a ticket mapping to an available resource is created then it performs a search for tickets
-from people who are in need of help for that kind of resource then an E-mail is sent
-to those people to inform them of new available resources. The ticket matching 
-criteria takes also into accout country and city. 
+When a new ticket is created then it performs a matching criteria among existing tickets.
+Ticket owners will get notified according to their ticket's attributes like country, state,
+city, ticket type, resource type etc.
 
 When a ticket is created then an E-mail is sent to the ticket's author to validate the ticket it
 comes with a deletion and avoid expiration link that is used to remove the ticket later. 
