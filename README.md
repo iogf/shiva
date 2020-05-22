@@ -19,6 +19,8 @@ an E-mail account.
 The actual approach of having validation/deletion links for tickets it allows third parties 
 to ask for help on one behalf with simplicity. 
 
+**Note:** There is a version running at https://shi-va.herokuapp.com/
+That is not meant to be usable since it runs on a free heroku account.
 
 # Debug
 
