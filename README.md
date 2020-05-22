@@ -101,18 +101,18 @@ http://0.0.0.0:8000
 **Note:** You should have the attribute below in your settings.py
 in order to run tests. It is to bypass google captcha.
 
+~~~python
+
+NOCAPTCHA = True
+
+~~~
+
 Tickets usually will have an expiration date unless it is meant to be permanent. That feature
 will be implemented yet. There is a ticket_app/management/commands/run_expiration 
 command to check ticket expiration. You could run it with a cron job.
 
 There is a mechanism of reporting tickets, when a ticket is reported then an E-mail
 is sent to all django site admins.
-
-~~~python
-
-NOCAPTCHA = True
-
-~~~
 
 # Next Step
 
