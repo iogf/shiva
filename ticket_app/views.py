@@ -161,8 +161,11 @@ class FindTicket(View):
             return render(request, 'ticket_app/find-ticket.html', 
                     {'form': form}, status=400)
 
-        fields  = form.cleaned_data.items()
-        fields  = dict(fields)
+        fields   = form.cleaned_data.items()
+        fields   = dict(fields)
+        keywords = fields.get('keywords') 
+
+        fields['keywords'] = keywords.split(' ')
         records = Ticket.find(**fields)
         records = records.order_by('-created')
 

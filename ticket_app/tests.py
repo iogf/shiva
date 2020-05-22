@@ -30,35 +30,49 @@ class TicketUrlTM(TestCase):
 
 class FindTM(TestCase):
     def setUp(self):
-        self.ticket = Ticket.objects.create(name='Zarathustra', type='0',
-        phone='22 4123321', email='last.src@gmail.com', note='Pls', item_type='0',
+        self.ticket0 = Ticket.objects.create(name='Zarathustra', type='0',
+        phone='22 4123321', email='last.src@gmail.com', 
+        note='aspirins antibiotics blood', item_type='0',
         country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today(), enabled=True)
+
+        self.ticket1 = Ticket.objects.create(name='Nietzsche', type='0',
+        phone='99 111111', email='last.src@gmail.com', note='pizza whisky ', 
+        item_type='0', country='Brazil', state='RJ', city='Sao paulo', 
         expiration=date.today(), enabled=True)
 
     def test(self):
         records = Ticket.find(name='Zara')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(type='0')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(phone='22 4123321')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(email='last.src@gmail.com')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(item_type='0')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(country='BRAZ')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(state='rj')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
 
         records = Ticket.find(city='rio')
-        self.assertIn(self.ticket, records)
+        self.assertIn(self.ticket0, records)
+
+        records = Ticket.find(keywords=['aspin', 'anti', 'pizza'])
+        self.assertIn(self.ticket0, records)
+        self.assertIn(self.ticket1, records)
+
+        records = Ticket.find(keywords=['aspin', 'anti', 'pizza'], city='sao')
+        self.assertNotIn(self.ticket0, records)
+        self.assertIn(self.ticket1, records)
 
 class TicketMatchesTM(TestCase):
     def setUp(self):
@@ -353,3 +367,33 @@ class DeleteTicketV(TestCase):
         kwargs={'ticket_id': self.ticket.id, 'token': self.token.token})
 
         response = self.client.post(url, payload={})
+
+class FindTicketV(TestCase):
+    def setUp(self):
+        self.ticket0 = Ticket.objects.create(name='user0', type='0',
+        phone='22 4123321', email='user0@gmail.com', enabled=True,
+        note='shirts shorts glasses', item_type='3', country='Brazil', 
+        state='RJ', city='Rio de Fevereiro', expiration=date.today())
+
+        self.ticket1 = Ticket.objects.create(name='user1', type='1',
+        phone='22 4123321', email='user1@gmail.com', note='chairs trousers', 
+        item_type='3', country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        enabled=True, expiration=date.today())
+
+    def test(self):
+        url = reverse('ticket_app:find-ticket', kwargs={})
+
+        payload = {'type':'0', 'item_type':'3', 'keywords':'shirts shorts',
+        'country':'Brazil', 'state':'RJ', 'city':'Rio de Fevereiro', }
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.ticket0, response.context['tickets'])
+
+        payload = {'type':'0', 'keywords':'shirts shorts trouser',
+        'country':'Brazil', 'state':'RJ', 'city':'Rio de Fevereiro', }
+
+        response = self.client.post(url, payload)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.ticket0, response.context['tickets'])
+        self.assertNotIn(self.ticket1, response.context['tickets'])

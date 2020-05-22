@@ -21,8 +21,8 @@ class FindTicketForm(forms.Form):
 
     TYPE_CHOICES = (('', '------'), ('0', 'Help'),('1','Helper'))
 
-    name = forms.CharField(required=False, 
-    help_text='Example: Tau')
+    keywords = forms.CharField(required=False, 
+    help_text='Example: aspirins antibiotics')
 
     type = forms.ChoiceField(required=False, 
     choices=TYPE_CHOICES)

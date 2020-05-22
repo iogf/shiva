@@ -16,8 +16,9 @@ class TicketMixin(models.Model):
         return '%s - %s' % (self.name, self.email)
 
     @classmethod
-    def find(cls, type=None, item_type=None, name=None, phone=None, 
-        email=None, description=None, country=None, state=None, city=None, enabled=True):
+    def find(cls, type=None, item_type=None, name=None, 
+        phone=None, email=None, country=None, state=None, city=None,
+        enabled=True, keywords=[]):
 
         records = cls.objects.filter(enabled=enabled)
         if city:
@@ -29,8 +30,7 @@ class TicketMixin(models.Model):
             records = records.filter(item_type=item_type)
         if name:
             records = records.filter(name__icontains=name)
-        if description:
-            records = records.filter(description__icontains=description)
+
         if phone:
             records = records.filter(phone=phone)
 
@@ -43,6 +43,11 @@ class TicketMixin(models.Model):
         if email:
             records = records.filter(email=email)
 
+        qwords = Q()
+        for ind in keywords:
+            qwords = qwords | Q(note__icontains=ind)
+
+        records = records.filter(qwords)
         return records
 
     def ticket_url(self):
