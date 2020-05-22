@@ -67,7 +67,7 @@ class ValidateEmail(View):
 
         send_mail(subject, message, settings.EMAIL_FROM, emails)
         return render(request, 
-            'ticket_app/validate-email.html', {})
+            'ticket_app/validate-email.html', {'ticket': token.ticket})
 
 class CreateTicket(View):
     def get(self, request):
