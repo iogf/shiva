@@ -56,13 +56,14 @@ class ValidateEmail(View):
         token.ticket.save()
 
         emails  = token.ticket.ticket_matches()
+        emails  = emails.filter(alert_me=True)
         emails  = emails.distinct()
         emails  = emails.values_list('email', flat=True)
         url     = token.ticket.ticket_url()
-        message = 'Check this new %s ticket!\n %s'
+        message = 'Check this new ticket!\n %s'
         subject = 'Shiva New Ticket!'
 
-        message    = message % (token.ticket.type, url)
+        message = message % url
 
         send_mail(subject, message, settings.EMAIL_FROM, emails)
         return render(request, 

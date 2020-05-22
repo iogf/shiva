@@ -157,6 +157,10 @@ class Ticket(TicketMixin):
     blank=True, help_text='Type your city. (Optional)', 
     max_length=60, verbose_name='City')
 
+    alert_me = models.BooleanField(blank=False, 
+    null=False, default=True, verbose_name='Notifications', 
+    help_text='Get E-mail notifications for new tickets?',)
+
     expiration = models.DateTimeField(blank=True, null=False)
 
     created = models.DateTimeField(auto_now_add=True, null=True)

@@ -283,32 +283,51 @@ class CreateTicketV(TestCase):
 
 class ValidateEmailV(TestCase):
     def setUp(self):
-        self.ticket = Ticket.objects.create(name='huhu', type='0',
-        phone='22 4123321', email='ooo.src@gmail.com', note='Pls', item_type='0',
+        self.ticket0 = Ticket.objects.create(name='user0', type='0',
+        phone='22 4123321', email='user0@gmail.com', note='Pls', item_type='0',
         country='Brazil', state='RJ', city='Rio de Fevereiro', 
         expiration=date.today())
 
-        self.token = TicketToken.objects.create(
-        token=secrets.token_urlsafe(24), ticket=self.ticket)
+        self.token0 = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket0)
+
+        self.ticket1 = Ticket.objects.create(name='user1', type='1',
+        phone='22 4123321', email='user1@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', enabled=True,
+        expiration=date.today())
+
+        self.token1 = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket1)
+
+        self.ticket2 = Ticket.objects.create(name='user2', type='1', enabled=True,
+        phone='22 4123321', email='user2@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today())
+
+        self.token2 = TicketToken.objects.create(
+        token=secrets.token_urlsafe(24), ticket=self.ticket2)
 
     def test(self):
-        url5 = reverse('ticket_app:validate-email',
-        kwargs={'ticket_id': self.ticket.id, 'token': self.token.token})
+        url0 = reverse('ticket_app:validate-email',
+        kwargs={'ticket_id': self.ticket0.id, 'token': self.token0.token})
 
-        response = self.client.get(url5)
+        response = self.client.get(url0)
         self.assertEqual(response.status_code, 200)
 
         # Make sure the ticket was enabled. The existing Ticket
         # instance is not updated in regard to the view workings.
-        ticket = Ticket.objects.get(id=self.ticket.id)
-        self.assertTrue(ticket.enabled)
+        ticket0 = Ticket.objects.get(id=self.ticket0.id)
+        self.assertTrue(ticket0.enabled)
 
         # When the ticket is validated it sends email notifications
         # to users whose tickets match.
-        matches = ticket.ticket_matches()
+        matches = ticket0.ticket_matches()
+        matches = matches.filter(alert_me=True)
+        matches = matches.distinct()
         count   = matches.count()
 
-        self.assertEqual(len(mail.outbox), count)
+        self.assertEqual(len(mail.outbox[0].recipients()), count)
+        self.assertEqual(len(mail.outbox[0].recipients()), 2)
 
 class DeleteTicketV(TestCase):
     def setUp(self):
