@@ -1,9 +1,15 @@
 from captcha.fields import ReCaptchaField
+from ticket_app.models import Ticket, TicketReport
 from django import forms
-from .models import Ticket, TicketReport
+from django.conf import settings
 
 class TicketForm(forms.ModelForm):
-    captcha = ReCaptchaField()
+    # To get automated tests working. It seems ReCaptchaField doesn't
+    # work as expected with required=False.
+
+    captcha = forms.CharField(disabled=True, required=False,
+    help_text='Google Captcha.') if settings.NOCAPTCHA \
+    else ReCaptchaField() 
 
     class Meta:
         model   = Ticket

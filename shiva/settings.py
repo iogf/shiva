@@ -22,7 +22,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
-# Captcha attributes.
+# Captcha attributes. When running tests set it to False.
 NOCAPTCHA = True
 
 # For debugging on 0.0.0.0.

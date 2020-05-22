@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from ticket_app.models import Ticket, TicketToken
+from ticket_app.forms import TicketForm
 from django.conf import settings
 from django.core import mail
 from datetime import date
@@ -247,3 +248,36 @@ class TicketMatchesV(TestCase):
 
         response = self.client.get(url)
         self.assertIn(self.ticket1, response.context['matches'])
+
+class CreateTicketV(TestCase):
+    def setUp(self):
+        self.ticket = Ticket.objects.create(name='hehe', type='0',
+        phone='22 4123321', email='ooo.src@gmail.com', note='Pls', item_type='0',
+        country='Brazil', state='RJ', city='Rio de Fevereiro', 
+        expiration=date.today())
+
+    def test(self):
+        payload = {'name':'hehe', 'type':'0',
+        'phone':'22 4123321', 'email':'ooo.src@gmail.com', 'note':'Pls', 'item_type':'0',
+        'country':'Brazil', 'state':'RJ', 'city':'Rio de Fevereiro', }
+
+        url0 = reverse('ticket_app:create-ticket', kwargs={})
+
+        response = self.client.post(url0, payload)
+        ticket = Ticket.objects.filter(email='ooo.src@gmail.com')
+        ticket = ticket.order_by('-created').first()
+
+        url1 = reverse('ticket_app:enable-ticket', 
+        kwargs={'ticket_id': ticket.id})
+        self.assertIn(url1, response.url)
+
+        self.assertEqual(len(mail.outbox), 1)
+
+        url2 = ticket.token.first().vmail_url()
+        url3 = ticket.token.first().delete_url()
+        url4 = ticket.token.first().expiration_url()
+
+        self.assertIn(url2, mail.outbox[0].message().get_payload())
+        self.assertIn(url3, mail.outbox[0].message().get_payload())
+        self.assertIn(url4, mail.outbox[0].message().get_payload())
+
